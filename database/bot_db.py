@@ -4,7 +4,7 @@ import sqlite3
 
 def sql_create():
     global db, cursor
-    db = sqlite3.connect("botz.sqlite3")
+    db = sqlite3.connect("bot.sqlite3")
     cursor = db.cursor()
 
     if db:
@@ -21,7 +21,7 @@ def sql_create():
 
 async def sql_command_insert(state):
     async with state.proxy() as data:
-        cursor.execute("INSERT INTO anketa VALUES (?, ?, ?, ?, ?)",
+        cursor.execute("INSERT INTO anketa VALUES (?, ?, ?, ?, ?, ? , ? )",
                        tuple(data.values()))
         db.commit()
 
@@ -40,4 +40,5 @@ async def sql_command_delete(id):
     db.commit()
 
 
-
+async def sql_command_get_id_name():
+    return cursor.execute("SELECT id, name FROM anketa").fetchall()
